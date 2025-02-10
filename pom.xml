@@ -14,19 +14,13 @@
             <artifactId>picocli</artifactId>
             <version>3.9.6</version>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>com.terrygilliam.imageio</groupId>
-            <artifactId>imageio-tiff</artifactId>
-            <version>3.5</version>
-        </dependency>
-        -->
     </dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>
 
         <plugins>
+            <!-- הפלאגין הקיים שלך -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -48,8 +42,24 @@
                 </executions>
             </plugin>
 
+            <!-- הפלאגין החדש של Spotify -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.13</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>thumbnailer</repository>
+                    <tag>${project.version}</tag>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
-
 </project>

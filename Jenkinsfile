@@ -142,7 +142,7 @@ pipeline {
                     // Test with different thumbnail size
                     sh "rm -f examples/*_thumb.jpg"
                     // sh "docker run -v \$(pwd)/examples:/pics -e TN_SIZE=200 ${DOCKER_IMAGE}:${DOCKER_TAG}"
-                    sh 'docker run --name thumbnailer -v /home/ubuntu/examples:/pics thumbnailer:1.0-SNAPSHOT ls /home/ubuntu/examples/'
+                    sh 'docker run --name thumbnailer2 -v /home/ubuntu/examples:/pics thumbnailer:1.0-SNAPSHOT ls /home/ubuntu/examples/'
                     // Verify thumbnail with custom size was created
                     sh "test -f examples/jenkins1_thumb.jpg"
                 }

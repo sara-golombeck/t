@@ -115,6 +115,7 @@ pipeline {
         stage('Test Docker Image') {
             steps {
                 script {
+                    chmod 777 examples
                     // Clean any existing thumbnails
                     sh "rm -f examples/*_thumb.jpg || true"
                     

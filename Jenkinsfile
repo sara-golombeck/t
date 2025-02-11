@@ -115,11 +115,13 @@ pipeline {
         stage('Test Docker Image') {
             steps {
                 script {
+                    sh "chmod 777 examples"
+
                     // Clean any existing thumbnails
                     sh "rm -f examples/*_thumb.jpg || true"
                     
                     // Run the docker image with default size - שים לב לשינוי בשם ה-image והתג
-                    sh "docker run -v \$(pwd)/examples:/pics ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                    sh 'docker run --name thumbnailer -v /home/ubuntu/examples:/pics thumbnailer:1.0-SNAPSHOT ls /home/ubuntu/examples/'
                     
                     // Verify JPEG thumbnail was created
                     sh """

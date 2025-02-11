@@ -235,22 +235,34 @@ pipeline {
         stage('Test Docker Image') {
             steps {
                 script {
-                    // ניקוי קונטיינרים ישנים וקבצי thumbnail ישנים
+                    // ניקוי וחידוש הרשאות
                     sh '''
                         docker rm -f thumbnailer || true
                         rm -f /home/ubuntu/examples/*_thumb.jpg || true
+                        
+                        echo "Current directory content:"
+                        ls -la /home/ubuntu/examples/
+                        
+                        echo "Setting permissions:"
+                        chmod -R 777 /home/ubuntu/examples/
                     '''
                     
-                    // הרצת הקונטיינר
+                    // הרצת הקונטיינר עם הדפסת לוגים
                     sh """
                         docker run --name thumbnailer \
                             -v /home/ubuntu/examples:/pics \
                             ${DOCKER_IMAGE}:${DOCKER_TAG}
                     """
                     
-                    // בדיקה אם נוצרו תמונות thumbnail
+                    // בדיקת תוצאות
                     sh '''
-                        echo "Checking for created thumbnails..."
+                        echo "Container logs:"
+                        docker logs thumbnailer
+                        
+                        echo "Directory content after run:"
+                        ls -la /home/ubuntu/examples/
+                        
+                        echo "Checking for thumbnails:"
                         ls -l /home/ubuntu/examples/*_thumb.jpg || echo "No thumbnails were created!"
                     '''
                 }
@@ -260,7 +272,6 @@ pipeline {
     
     post {
         always {
-            // ניקוי בסיום
             sh '''
                 docker rm -f thumbnailer || true
                 echo "Cleanup complete"

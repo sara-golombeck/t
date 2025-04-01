@@ -32,7 +32,7 @@ pipeline {
                     sh """
                         docker run --name thumbnailer \
                             -v /home/ubuntu/examples:/pics \
-                            ${DOCKER_IMAGE}:1.0-SNAPSHOT\
+                            ${DOCKER_IMAGE}:${DOCKER_TAG} \
                             ls /pics
                     """
                 }
@@ -42,6 +42,7 @@ pipeline {
     
     post {
         always {
+            // ניקוי בסיום
             sh 'docker rm -f thumbnailer || true'
         }
     }

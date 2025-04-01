@@ -19,7 +19,7 @@ pipeline {
         stage('Install') {
             steps {
                 configFileProvider([configFile(fileId: 'Jenkins-Artifactory', variable: 'MAVEN_SETTINGS')]) {
-                    sh "mvn -U-s $MAVEN_SETTINGS clean install"
+                    sh "mvn -U -s $MAVEN_SETTINGS clean install"
                 }
             }
         }
